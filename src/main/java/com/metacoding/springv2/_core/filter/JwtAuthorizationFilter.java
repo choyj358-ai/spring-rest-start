@@ -15,7 +15,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("~~~~~~~~~~~~~~~JwtAuthorizationFilter~~~~~~~~~~~~");
+        System.out.println("~~~~~~~~~~~~~~~JwtAuthorizationFilter필터~~~~~~~~~~~~");
 
         // localhost:8080/good?username=ssar&password=1234
         String username = request.getParameter("username");

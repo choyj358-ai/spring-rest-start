@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/**")
                 .authenticated()
                 .anyRequest()
-                .permitAll()); // api가 붙은 주소는 다 인증이 필요해
+                .permitAll()); // api가 붙은 주소는 다 통과
 
         // 폼 로그인 비활성화(POST : x-www-form-urlencoded : username, password)
         http.formLogin(f -> f.disable());
