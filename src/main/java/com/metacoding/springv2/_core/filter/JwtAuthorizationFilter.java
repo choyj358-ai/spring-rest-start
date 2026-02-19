@@ -2,7 +2,13 @@ package com.metacoding.springv2._core.filter;
 
 import java.io.IOException;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.metacoding.springv2._core.util.JwtUtil;
+import com.metacoding.springv2.user.User;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,17 +21,25 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("~~~~~~~~~~~~~~~JwtAuthorizationFilter~~~~~~~~~~~~");
 
-        // localhost:8080/good?username=ssar&password=1234
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        // localhost:8080/api/good (모든 주소에서 동작하는 필터)
+        // header -> Authorization : Bearer JWT 토큰
 
-        if (username.equals("ssar") && password.equals("1234")) {
+        String jwt = request.getHeader("Authorization");
+
+        if (jwt == null) {
             filterChain.doFilter(request, response);
-        } else {
-            response.getWriter().println("get out");
+            return;
         }
+
+        jwt = jwt.replace("Bearer ", "");
+
+        User user = JwtUtil.verify(jwt);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);
     }
 
 }
