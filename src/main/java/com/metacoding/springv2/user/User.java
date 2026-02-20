@@ -58,7 +58,7 @@ public class User implements UserDetails {
         Collection<GrantedAuthority> as = new ArrayList<>();
         String[] roleList = roles.split(","); // user -> admin, user
         for (String role : roleList) {
-            as.add(() -> role);
+            as.add(() -> "ROLE_" + role);
         } // 권한이 담겨요
         return as;
     }
