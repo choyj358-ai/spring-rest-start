@@ -17,4 +17,9 @@ public class AuthRequest {
         private String username;
         private String password;
     }
+
+    @Data
+    public static class CheckUsernameDTO {
+        private String username;
+    }
 }

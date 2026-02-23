@@ -1,5 +1,7 @@
 package com.metacoding.springv2.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,4 +52,18 @@ public class AuthService {
         return new AuthResponse.DTO(user);
     }
 
+    /**
+     * 유저네임 중복 체크
+     * 
+     * @param reqDTO
+     * @return
+     */
+    public AuthResponse.CheckUsernameDTO 유저네임중복체크(AuthRequest.CheckUsernameDTO reqDTO) {
+        Optional<User> user = userRepository.findByUsername(reqDTO.getUsername());
+        if (user.isPresent()) {
+            return new AuthResponse.CheckUsernameDTO(false, "이미 사용중인 유저네임입니다.");
+        } else {
+            return new AuthResponse.CheckUsernameDTO(true, "사용가능한 유저네임입니다.");
+        }
+    }
 }

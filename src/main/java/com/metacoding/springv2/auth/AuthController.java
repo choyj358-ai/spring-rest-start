@@ -30,6 +30,18 @@ public class AuthController {
         return Resp.ok(accessToken);
     }
 
+    /**
+     * 유저네임 중복 체크 API
+     * 
+     * @param reqDTO
+     * @return
+     */
+    @PostMapping("/check-username")
+    public ResponseEntity<?> checkUsername(@RequestBody AuthRequest.CheckUsernameDTO reqDTO) {
+        AuthResponse.CheckUsernameDTO respDTO = authService.유저네임중복체크(reqDTO);
+        return Resp.ok(respDTO);
+    }
+
     @GetMapping("/health")
     public String healthCheck() {
         return "health ok";
