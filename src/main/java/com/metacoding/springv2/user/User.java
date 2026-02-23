@@ -18,6 +18,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 유저 엔티티
+ * UserDetails를 구현하여 스프링 시큐리티의 인증 객체로 사용됩니다.
+ */
 @NoArgsConstructor
 @Getter
 @Entity
@@ -33,7 +37,7 @@ public class User implements UserDetails {
     private String password;
     @Column(length = 30, nullable = false)
     private String email;
-    private String roles; // 디폴트값은 USER
+    private String roles; // USER, ADMIN 등
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -59,8 +63,28 @@ public class User implements UserDetails {
         String[] roleList = roles.split(","); // user -> admin, user
         for (String role : roleList) {
             as.add(() -> "ROLE_" + role);
-        } // 권한이 담겨요
+        }
         return as;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }

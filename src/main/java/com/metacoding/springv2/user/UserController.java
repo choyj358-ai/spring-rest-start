@@ -22,7 +22,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/api/users/{id}")
-    public ResponseEntity<?> findUserById(@PathVariable Integer id) {
+    public ResponseEntity<?> findUserById(@PathVariable("id") Integer id) {
         UserResponse.UserFindByIdDTO respDTO = userService.회원정보보기(id);
         return Resp.ok(respDTO);
     }

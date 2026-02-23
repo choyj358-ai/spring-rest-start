@@ -15,6 +15,11 @@ import com.metacoding.springv2.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 인증 관련 비즈니스 로직을 처리하는 서비스입니다.
+ * 클래스 상단에 전역적으로 readOnly 트랜잭션을 적용했어요!
+ */
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -22,6 +27,12 @@ public class AuthService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * 로그인을 처리합니다.
+     * 
+     * @param reqDTO 로그인 요청 데이터
+     * @return 생성된 JWT 토큰
+     */
     public String 로그인(LoginDTO reqDTO) {
 
         // 1. UserRepository에서 username 확인
@@ -36,6 +47,13 @@ public class AuthService {
         return JwtUtil.create(findUser);
     }
 
+    /**
+     * 회원가입을 처리합니다.
+     * 데이터 저장이 필요하므로 별도의 @Transactional을 사용했어요!
+     * 
+     * @param reqDTO 회원가입 요청 데이터
+     * @return 가입된 유저 정보 DTO
+     */
     @Transactional
     public AuthResponse.DTO 회원가입(JoinDTO reqDTO) {
 
@@ -53,10 +71,10 @@ public class AuthService {
     }
 
     /**
-     * 유저네임 중복 체크
+     * 유저네임 중복 체크를 수행합니다.
      * 
-     * @param reqDTO
-     * @return
+     * @param reqDTO 중복 체크 요청 데이터
+     * @return 중복 여부 결과 DTO
      */
     public AuthResponse.CheckUsernameDTO 유저네임중복체크(AuthRequest.CheckUsernameDTO reqDTO) {
         Optional<User> user = userRepository.findByUsername(reqDTO.getUsername());

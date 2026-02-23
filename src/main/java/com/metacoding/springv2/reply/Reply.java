@@ -27,13 +27,23 @@ public class Reply {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @Builder
-    public Reply(Integer id, String comment, User user, Board board, Timestamp createdAt) {
-        this.id = id;
-        this.comment = comment;
-        this.user = user;
-        this.board = board;
-        this.createdAt = createdAt;
+        @Builder
+        public Reply(Integer id, String comment, User user, Board board, Timestamp createdAt) {
+            this.id = id;
+            this.comment = comment;
+            this.user = user;
+            this.board = board;
+            this.createdAt = createdAt;
+        }
+    
+        /**
+         * 댓글 내용을 수정하는 메서드입니다.
+         * 
+         * @param comment 수정할 댓글 내용
+         */
+        public void update(String comment) {
+            this.comment = comment;
+        }
+    
     }
-
-}
+    

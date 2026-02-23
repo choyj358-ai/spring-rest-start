@@ -41,6 +41,7 @@ public class SecurityConfig {
 
         // 인증/권한 주소 커스터마이징
         http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/boards/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().permitAll()); // api가 붙은 주소는 다 인증이 필요해
